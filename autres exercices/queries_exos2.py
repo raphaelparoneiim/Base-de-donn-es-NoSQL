@@ -60,13 +60,13 @@ pipeline = [
     {"$group":{"_id":"$movie_id","numComments":{"$sum":1}}}
 ]
 results = list(comments.aggregate(pipeline))
-for r in results[:10]:  # affiche juste 10 pour lisibilité
+for r in results[:10]:
     print(r)
 
 print("\n----- EXO 8 : Film avec le plus grand nombre de votes IMDb -----")
 results = list(
     movies.find(
-        {"imdb.votes": {"$type": "int"}},  # ne prend que les entiers
+        {"imdb.votes": {"$type": "int"}},
         {"_id":0, "title":1, "imdb.votes":1}
     ).sort("imdb.votes", -1).limit(1)
 )
@@ -76,7 +76,7 @@ for r in results:
 
 print("\n----- EXO 9 : Films avec quelques commentaires (5 premiers films seulement) -----")
 pipeline = [
-    {"$limit": 5},  # on ne prend que 5 films pour la demo
+    {"$limit": 5},
     {"$lookup":{
         "from":"comments",
         "localField":"_id",
@@ -117,7 +117,7 @@ pipeline = [
     {"$project":{"name":1,"favorite_movies.title":1,"_id":0}}
 ]
 results = list(users.aggregate(pipeline))
-for r in results[:5]:  # affiche juste 5 pour lisibilité
+for r in results[:5]:
     print(r)
 
 print("\n----- EXO 12 : Nombre de commentaires par utilisateur -----")
