@@ -27,7 +27,7 @@ for m in results:
 
 print("\n----- EXO 5 : Afficher seulement title et year -----")
 results = list(movies.find({}, {"_id":0, "title":1, "year":1}))
-for m in results[:10]:  # limite affichage pour lisibilité
+for m in results[:10]:
     print(m)
 
 print("\n----- EXO 6 : Films avec imdb.rating > 8 -----")
