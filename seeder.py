@@ -1,11 +1,9 @@
-# seeder.py
 from datetime import datetime, timedelta, timezone
 from db import Database
 
 def run_seeder():
     db = Database()
 
-    # Nettoyage (facultatif pour des tests propres)
     for t in ["users", "teams", "projects"]:
         try:
             db.col(t).delete_many({})
@@ -20,19 +18,18 @@ def run_seeder():
         {"name": "Diane", "email": "diane@example.com", "role": "designer"},
     ]
     user_pids = db.create_items("users", users, created_by="seeder")
-    # map pid -> email/name
     pid_by_email = {}
     for u, r in zip(users, user_pids):
         pid_by_email[u["email"]] = r["pid"]
 
-    # TEAMS (members = pids de users)
+    # TEAMS
     teams = [
         {"name": "Team A", "members": [pid_by_email["alice@example.com"], pid_by_email["bob@example.com"]]},
         {"name": "Team B", "members": [pid_by_email["charlie@example.com"], pid_by_email["diane@example.com"]]},
     ]
     team_pids = db.create_items("teams", teams, created_by="seeder")
 
-    # PROJECTS (teams = pids de teams, tags = array de strings)
+    # PROJECTS
     now = datetime.now(timezone.utc)
     projects = [
         {"name": "Website Redesign", "teams": [team_pids[0]["pid"]], "tags": ["ui", "urgent"], "budget": 15000, "deadline": now + timedelta(days=30)},
