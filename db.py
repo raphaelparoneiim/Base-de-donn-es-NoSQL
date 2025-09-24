@@ -8,10 +8,8 @@ from pymongo.collection import Collection
 from pymongo.database import Database as _MongoDatabase
 from dotenv import load_dotenv
 
-# Charger le .env
 load_dotenv()
 
-# DEBUG : afficher les variables lues
 print("DEBUG MONGODB_URI =", os.getenv("MONGODB_URI"))
 print("DEBUG MONGODB_DB_NAME =", os.getenv("MONGODB_DB_NAME"))
 
@@ -50,7 +48,7 @@ class Database:
             raise ValueError("MONGODB_URI et/ou MONGODB_DB_NAME manquants (check .env).")
 
         self._client = MongoClient(self._uri, serverSelectionTimeoutMS=server_selection_timeout_ms)
-        # Test connexion
+
         self._client.server_info()
 
         self._db: _MongoDatabase = self._client.get_database(self._db_name)
